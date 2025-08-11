@@ -1,28 +1,60 @@
-from http import HTTPStatus
+def test_create_user(client, codigo_201_dado_enviado_e_criado_com_sucesso):
+    response = client.post(
+        '/users/',
+        json={'username': 'jhon', 'email': 'jhon@gmail.com', 'password': '123'},
+    )
 
-from fastapi.testclient import TestClient
+    json_da_response = response.json()
 
-from fastapi_zero.app import app
+    status_code_da_response = response.status_code
+
+    assert status_code_da_response == codigo_201_dado_enviado_e_criado_com_sucesso
+    assert json_da_response == {'username': 'jhon', 'email': 'jhon@gmail.com', 'id': 1}
 
 
-def test_restorna_html_deve_retornar_html():
+def test_read_users(client, codigo_200_dado_solicitado_e_retornado_com_sucesso):
+    response = client.get('/users/')
 
-    client = TestClient(app)
-    response = client.get("/ola_mundo")
+    status_code_da_response = response.status_code
+    json_da_response = response.json()
 
-    status_da_response_e_OK = response.status_code == HTTPStatus.OK
+    assert status_code_da_response == codigo_200_dado_solicitado_e_retornado_com_sucesso
+    assert json_da_response == {
+        'users': [{'username': 'jhon', 'email': 'jhon@gmail.com', 'id': 1}]
+    }
 
-    html_para_test = """
-    <html>
-      <head>
-        <title> Nosso olá mundo!</title>
-      </head>
-      <body>
-        <h1> Olá Mundo </h1>
-      </body>
-    </html>"""
 
-    html_da_response_e_igual_a_html_para_test = response.text == html_para_test
+def test_update_user(client, codigo_200_dado_atualizado_com_sucesso):
+    response = client.put(
+        '/users/1',
+        json={
+            'username': 'bob',
+            'email': 'bob@example.com',
+            'password': 'mynewpassword',
+        },
+    )
 
-    assert status_da_response_e_OK
-    assert html_da_response_e_igual_a_html_para_test
+    status_code_da_response = response.status_code
+    json_da_response = response.json()
+
+    assert status_code_da_response == codigo_200_dado_atualizado_com_sucesso
+    assert json_da_response == {
+        'username': 'bob',
+        'email': 'bob@example.com',
+        'id': 1,
+    }
+
+
+def test_delete_user(client, codigo_200_dado_excluido_com_sucesso):
+    response = client.delete('/users/1')
+
+    status_code_da_response = response.status_code
+    json_da_response = response.json()
+
+    assert json_da_response == {
+        'username': 'bob',
+        'email': 'bob@example.com',
+        'id': 1,
+    }
+    assert status_code_da_response == codigo_200_dado_excluido_com_sucesso
+    
