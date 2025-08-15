@@ -124,7 +124,11 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+<<<<<<< HEAD
 #.env
+=======
+.env
+>>>>>>> 916b82829813a56b53efc07a2fbca561446ec169
 .venv
 env/
 venv/
@@ -177,3 +181,7 @@ pyrightconfig.json
 
 # Generated using ignr.py - github.com/Antrikshy/ignr.py
 
+<<<<<<< HEAD
+=======
+database.db
+>>>>>>> 916b82829813a56b53efc07a2fbca561446ec169

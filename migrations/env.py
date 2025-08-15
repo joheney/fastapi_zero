@@ -5,11 +5,19 @@ from sqlalchemy import pool
 
 from alembic import context
 
+<<<<<<< HEAD
 from fast_zero.models import table_registry
 from fast_zero.settings import Settings
 
 config = context.config
 config.set_main_option('sqlalchemy.url', Settings().DATABASE_URL)
+=======
+from fastapi_zero.models import table_registry
+from fastapi_zero.settings import Settings
+
+config = context.config
+config.set_main_option("sqlalchemy.url", Settings().DATABASE_URL)  # type: ignore
+>>>>>>> 916b82829813a56b53efc07a2fbca561446ec169
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
@@ -60,9 +68,13 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
+<<<<<<< HEAD
         context.configure(
             connection=connection, target_metadata=target_metadata
         )
+=======
+        context.configure(connection=connection, target_metadata=target_metadata)
+>>>>>>> 916b82829813a56b53efc07a2fbca561446ec169
 
         with context.begin_transaction():
             context.run_migrations()
